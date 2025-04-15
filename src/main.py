@@ -1,22 +1,28 @@
-def calculate(string: str) -> float:
-    # Esta función realiza una resta entre dos números separados por un espacio
+import re
 
-    primer = ""
-    segundo = ""
+def calculate(expression: str) -> float:
+    """
+    Evalúa una expresión matemática segura (por ejemplo: '10 - 3').
+    Lanza errores si la expresión está vacía, contiene caracteres inválidos o tiene sintaxis incorrecta.
+    """
 
-    for i in string:
-        if i == " ":
-            break
-        primer += i
+    if not expression or expression.strip() == "":
+        raise ValueError("Expresión vacía")
 
-    for i in string[::-1]:
-        if i == " ":
-            break
-        segundo += i
+    # Validar caracteres permitidos (números, espacios, punto decimal, operadores básicos)
+    if not re.fullmatch(r"[0-9\.\-\+\*/\s]+", expression):
+        raise ValueError("Caracteres inválidos")
 
-    segundo = segundo[::-1]
-    first = int(primer)
-    second = int(segundo)
+    # Validar sintaxis incorrecta como: "* 3" o "5 *"
+    if re.search(r"(^\s*[\+\-\*/]|\s*[\+\-\*/]\s*$|[\+\-\*/]{2,})", expression):
+        raise SyntaxError("Expresión con sintaxis inválida")
 
-    return first - second
-
+    try:
+        result = eval(expression, {"__builtins__": None}, {})
+        return result
+    except ZeroDivisionError:
+        raise ZeroDivisionError("División entre cero.")
+    except SyntaxError:
+        raise SyntaxError("Expresión con sintaxis inválida")
+    except Exception:
+        raise ValueError("Error de evaluación")
