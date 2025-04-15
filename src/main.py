@@ -4,12 +4,12 @@ def calculate(expression: str) -> float:
     if not expression or expression.strip() == "":
         raise ValueError("Expresión vacía")
 
-    # Validar caracteres permitidos
-    if not re.fullmatch(r"[0-9\.\-\*\s]+", expression):
+    # Validar caracteres permitidos (solo números, espacios, puntos y operadores básicos)
+    if not re.fullmatch(r"[0-9\.\-\+\*/\s]+", expression):
         raise ValueError("Caracteres inválidos")
 
-    # Validar sintaxis incorrecta como: "5 * " o "* 3"
-    if re.search(r"(^\s*\*|\*\s*$|\*\s*\*)", expression):
+    # Validar sintaxis incorrecta como: "* 3" o "5 *"
+    if re.search(r"(^\s*[\+\-\*/]|\s*[\+\-\*/]\s*$|[\+\-\*/]{2,})", expression):
         raise SyntaxError("Expresión con sintaxis inválida")
 
     try:
@@ -21,3 +21,4 @@ def calculate(expression: str) -> float:
         raise SyntaxError("Expresión con sintaxis inválida")
     except Exception:
         raise ValueError("Error de evaluación")
+

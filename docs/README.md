@@ -1,5 +1,7 @@
-Gerard Iruri  
-**Buenas tardes, soy alumno de la carrera CS en la universidad de UTEC**
-
-## Josue Carrillo  
-Hola, soy Josue. Esta es mi primera hackathon con Git y GitHub 🚀
+Josue Carrillo
+Hola, soy Josue carrillo. Esta es mi primera hackathon con Git y GitHub 
+Luis Cahuana
+Mi primera Hackaton!
+##Anyeli Tamara 
+Soy estudiante de cs
+Buenas mi nombre es bruno
