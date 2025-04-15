@@ -1,21 +1,24 @@
-def calculate(string) -> float:
-    #cambia simbolo
+import re
 
-    primer = ""
-    segundo = ""
+def calculate(expression: str) -> float:
+    if not expression or expression.strip() == "":
+        raise ValueError("Expresión vacía")
 
-    for i in string:
-        if (i == " "):
-            break
-        primer += i
+    # Validar caracteres permitidos (solo números, espacios, puntos y operadores básicos)
+    if not re.fullmatch(r"[0-9\.\-\+\*/\s]+", expression):
+        raise ValueError("Caracteres inválidos")
 
-    for i in string[::-1]:
-        if (i == " "):
-            break
-        segundo += i
+    # Validar sintaxis incorrecta como: "* 3" o "5 *"
+    if re.search(r"(^\s*[\+\-\*/]|\s*[\+\-\*/]\s*$|[\+\-\*/]{2,})", expression):
+        raise SyntaxError("Expresión con sintaxis inválida")
 
-    segundo = segundo[::-1]
-    first = int(primer)
-    second = int(segundo)
+    try:
+        result = eval(expression, {"__builtins__": None}, {})
+        return result
+    except ZeroDivisionError:
+        raise ZeroDivisionError("División entre cero.")
+    except SyntaxError:
+        raise SyntaxError("Expresión con sintaxis inválida")
+    except Exception:
+        raise ValueError("Error de evaluación")
 
-    return first cambia signo second
